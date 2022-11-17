@@ -14,11 +14,12 @@ public class StartCommandTest extends AbstractCommandTest {
 
     @Override
     String getCommandMessage() {
+
         return START_MESSAGE;
     }
 
     @Override
     Command getCommand() {
-        return new StartCommand(sendBotMessageService);
+        return new StartCommand(sendBotMessageService, telegramUserService);
     }
 }
