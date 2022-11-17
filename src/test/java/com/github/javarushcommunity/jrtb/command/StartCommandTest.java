@@ -14,6 +14,7 @@ public class StartCommandTest extends AbstractCommandTest {
 
     @Override
     String getCommandMessage() {
+
         return START_MESSAGE;
     }
 

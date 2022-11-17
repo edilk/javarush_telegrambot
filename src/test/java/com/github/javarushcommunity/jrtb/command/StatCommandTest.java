@@ -11,7 +11,8 @@ public class StatCommandTest extends AbstractCommandTest {
 
     @Override
     String getCommandMessage() {
-        return STAT_MESSAGE;
+        int activeUsers = telegramUserService.retrieveAllActiveUsers().size();
+        return String.format(STAT_MESSAGE, activeUsers);
     }
 
     @Override
