@@ -19,7 +19,7 @@ public class UnknownCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(),
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(),
                 UNKNOWN_MESSAGE);
     }
 }
