@@ -1,6 +1,6 @@
 package com.github.javarushcommunity.jrtb.service;
 
-import com.github.javarushcommunity.jrtb.repository.TelegramUser;
+import com.github.javarushcommunity.jrtb.repository.entity.TelegramUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +28,5 @@ public interface TelegramUserService {
      * @param chatId provided by Chat ID.
      * @return {@link TelegramUser} with provided chat ID or null otherwise.
      */
-    Optional<TelegramUser> findByChatId(String chatId);
+    Optional<TelegramUser> findByChatId(Long chatId);
 }

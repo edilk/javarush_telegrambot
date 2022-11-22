@@ -23,9 +23,9 @@ public class StopCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(),
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(),
                 STOP_MESSAGE);
-        telegramUserService.findByChatId(update.getMessage().getChatId().toString())
+        telegramUserService.findByChatId(update.getMessage().getChatId())
                 .ifPresent(it -> {
                     it.setActive(false);
                     telegramUserService.save(it);
