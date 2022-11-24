@@ -11,7 +11,8 @@ public enum CommandName {
     NO("nocommand"),
     STAT("/stat"),
     ADD_GROUP_SUB("/addgroupsub"),
-    LIST_GROUP_SUB("/listgroupsub");
+    LIST_GROUP_SUB("/listgroupsub"),
+    DELETE_GROUP_SUB("/deletegroupsub");
 
     private final String commandName;
 
