@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.github.javarushcommunity.jrtb.command.AbstractCommandTest.prepareUpdate;
 import static com.github.javarushcommunity.jrtb.command.CommandName.LIST_GROUP_SUB;
 
 @DisplayName("Unit-level testing for ListGroupSubCommand")
@@ -48,18 +49,14 @@ public class ListGroupSubCommandTest {
                 new ListGroupSubCommand(sendBotMessageService,
                         telegramUserService);
 
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getChatId())
-                .thenReturn(telegramUser.getChatId());
-        Mockito.when(message.getText())
-                .thenReturn(LIST_GROUP_SUB.getCommandName());
-        update.setMessage(message);
+        Update update = prepareUpdate(telegramUser.getChatId(), LIST_GROUP_SUB.getCommandName());
 
-        String collectedGroups = "Я нашел все подписки на группы: \n\n" +
-                telegramUser.getGroupSubs().stream()
-                        .map(it -> "Группа: " + it.getTitle() + ", ID = " + it.getId() + "\n")
-                        .collect(Collectors.joining());
+        String joinedGroups = telegramUser.getGroupSubs().stream()
+                .map(it -> "Группа: " + it.getTitle() + ", ID = " + it.getId() + "\n")
+                .collect(Collectors.joining());
+
+        String collectedGroups = String.format("Я нашел все подписки на группы: \n\n %s",
+                joinedGroups);
 
 
         //when
