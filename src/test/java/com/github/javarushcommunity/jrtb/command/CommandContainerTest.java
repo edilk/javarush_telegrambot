@@ -6,7 +6,10 @@ import com.github.javarushcommunity.jrtb.service.SendBotMessageService;
 import com.github.javarushcommunity.jrtb.service.TelegramUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.Collections;
 
 @DisplayName("Unit-level testing for CommandContainer")
 public class CommandContainerTest {
@@ -23,6 +26,7 @@ public class CommandContainerTest {
         GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
         commandContainer = new CommandContainer(sendBotMessageService,
                 telegramUserService,
-                groupClient, groupSubService);
+                groupClient, groupSubService,
+                Collections.singletonList("username"));
     }
 }
