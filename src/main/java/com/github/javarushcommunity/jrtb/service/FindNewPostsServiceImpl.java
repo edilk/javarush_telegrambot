@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FindNewArticleServiceImpl implements FindNewArticleService {
+public class FindNewPostsServiceImpl implements FindNewPostsService {
 
     public static final String JAVARUSH_WEB_POST_FORMAT = "https://javarush.com/groups/posts/%s";
 
@@ -21,27 +21,27 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
     private final SendBotMessageService sendBotMessageService;
 
     @Autowired
-    public FindNewArticleServiceImpl(GroupSubService groupSubService,
-                                     JavaRushPostClient javaRushPostClient,
-                                     SendBotMessageService sendBotMessageService) {
+    public FindNewPostsServiceImpl(GroupSubService groupSubService,
+                                   JavaRushPostClient javaRushPostClient,
+                                   SendBotMessageService sendBotMessageService) {
         this.groupSubService = groupSubService;
         this.javaRushPostClient = javaRushPostClient;
         this.sendBotMessageService = sendBotMessageService;
     }
 
     @Override
-    public void findNewArticles() {
+    public void findNewPosts() {
         groupSubService.findAll().forEach(groupSub -> {
             List<PostInfo> newPosts = javaRushPostClient
-                    .findNewPosts(groupSub.getId(), groupSub.getLastArticleId());
+                    .findNewPosts(groupSub.getId(), groupSub.getLastPostId());
 
-            setNewLastArticleId(groupSub, newPosts);
+            setNewLastPostId(groupSub, newPosts);
 
-            notifySubscribersAboutNewArticles(groupSub, newPosts);
+            notifySubscribersAboutNewPosts(groupSub, newPosts);
         });
     }
 
-    private void notifySubscribersAboutNewArticles(GroupSub gSub, List<PostInfo> newPosts) {
+    private void notifySubscribersAboutNewPosts(GroupSub gSub, List<PostInfo> newPosts) {
         Collections.reverse(newPosts);
         List<String> messageWithNewArticles = newPosts.stream()
                 .map(post -> String.format("✨Вышла новая статья <b>%s</b> в группе <b>%s</b>.✨\n\n" +
@@ -56,10 +56,10 @@ public class FindNewArticleServiceImpl implements FindNewArticleService {
                 .forEach(it -> sendBotMessageService.sendMessage(it.getChatId(), messageWithNewArticles));
     }
 
-    private void setNewLastArticleId(GroupSub groupSub, List<PostInfo> newPosts) {
+    private void setNewLastPostId(GroupSub groupSub, List<PostInfo> newPosts) {
         newPosts.stream().mapToInt(PostInfo::getId).max()
                 .ifPresent(id -> {
-                    groupSub.setLastArticleId(id);
+                    groupSub.setLastPostId(id);
                     groupSubService.save(groupSub);
                 });
     }
