@@ -12,5 +12,5 @@ public class GroupStatDTO {
 
     private final Integer id;
     private final String title;
-    private final  Integer activeUserCount;
+    private final Integer activeUserCount;
 }
