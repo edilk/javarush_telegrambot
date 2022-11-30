@@ -4,6 +4,7 @@ import com.github.javarushcommunity.jrtb.command.annotation.AdminCommand;
 import com.github.javarushcommunity.jrtb.javarushclient.JavaRushGroupClient;
 import com.github.javarushcommunity.jrtb.service.GroupSubService;
 import com.github.javarushcommunity.jrtb.service.SendBotMessageService;
+import com.github.javarushcommunity.jrtb.service.StatisticsService;
 import com.github.javarushcommunity.jrtb.service.TelegramUserService;
 import com.google.common.collect.ImmutableMap;
 
@@ -22,7 +23,8 @@ public class CommandContainer {
                             TelegramUserService telegramUserService,
                             JavaRushGroupClient javaRushGroupClient,
                             GroupSubService groupSubService,
-                            List<String> admins) {
+                            List<String> admins,
+                            StatisticsService statisticsService) {
         this.admins = admins;
 
         commandMap = ImmutableMap.<String, Command>builder()
@@ -33,7 +35,7 @@ public class CommandContainer {
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService))
                 .put(NO.getCommandName(), new NoCommand(sendBotMessageService))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService,
-                        telegramUserService))
+                        statisticsService))
                 .put(ADD_GROUP_SUB.getCommandName(), new AddGroupSubCommand(sendBotMessageService,
                         javaRushGroupClient, groupSubService))
                 .put(LIST_GROUP_SUB.getCommandName(), new ListGroupSubCommand(sendBotMessageService,
@@ -49,6 +51,7 @@ public class CommandContainer {
     public Command retrieveCommand(String commandIdentifier, String username) {
 
         Command orDefault = commandMap.getOrDefault(commandIdentifier, unknownCommand);
+        assert orDefault != null;
         if (isAdminCommand(orDefault)) {
             if (admins.contains(username)) {
                 return orDefault;

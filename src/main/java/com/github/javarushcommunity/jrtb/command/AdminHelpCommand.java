@@ -1,6 +1,7 @@
 package com.github.javarushcommunity.jrtb.command;
 
 import com.github.javarushcommunity.jrtb.service.SendBotMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.github.javarushcommunity.jrtb.command.CommandName.STAT;

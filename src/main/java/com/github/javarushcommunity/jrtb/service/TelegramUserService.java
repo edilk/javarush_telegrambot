@@ -24,6 +24,13 @@ public interface TelegramUserService {
     List<TelegramUser> retrieveAllActiveUsers();
 
     /**
+     * Find all inactive {@link TelegramUser}
+     *
+     * @return the collection of the inactive {@link TelegramUser} objects.
+     */
+    List<TelegramUser> findAllInActiveUsers();
+
+    /**
      * Find {@link TelegramUser} by chat id.
      * @param chatId provided by Chat ID.
      * @return {@link TelegramUser} with provided chat ID or null otherwise.
